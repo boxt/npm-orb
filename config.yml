@@ -11,16 +11,21 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - npm-cache-{{ arch }}-{{checksum "package-lock.json" }}
+            # when lock file changes, use increasingly general patterns to restore cache
+            - npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - npm-cache-{{ .Branch }}-
+            - npm-cache-
           name: Restore NPM cache
+
   cache-write:
     steps:
       - save_cache:
-          key: npm-cache-{{ arch }}-{{checksum "package-lock.json" }}
+          key: npm-cache-{{ .Branch }}-{{checksum "package-lock.json" }}
           name: Save NPM cache
           paths:
             - ~/.cache
             - ./node_modules
+
   install:
     steps:
-      - run: "npm i"
+      - run: "npm install"
