@@ -8,6 +8,11 @@ display:
 
 commands:
   cache-read:
+    parameters:
+      version:
+        description: Version of the cache to restore
+        type: string
+        default: "v1"
     steps:
       - restore_cache:
           keys:
@@ -18,6 +23,11 @@ commands:
           name: Restore NPM cache
 
   cache-write:
+    parameters:
+      version:
+        description: Version of the cache to save
+        type: string
+        default: "v1"
     steps:
       - save_cache:
           key: npm-cache-v1-{{ .Branch }}-{{checksum "package-lock.json" }}
