@@ -12,15 +12,15 @@ commands:
       - restore_cache:
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
-            - npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - npm-cache-{{ .Branch }}-
-            - npm-cache-
+            - npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - npm-cache-v1-{{ .Branch }}-
+            - npm-cache-v1-
           name: Restore NPM cache
 
   cache-write:
     steps:
       - save_cache:
-          key: npm-cache-{{ .Branch }}-{{checksum "package-lock.json" }}
+          key: npm-cache-v1-{{ .Branch }}-{{checksum "package-lock.json" }}
           name: Save NPM cache
           paths:
             - ~/.cache
